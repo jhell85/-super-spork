@@ -11,6 +11,9 @@ class ArticlesController < ApplicationController
     @article = Article.new
   end
 
+  def edit
+    @article = Article.find(params[:id])
+  end
   def create
     # render plain: params[:articles]
 
@@ -22,6 +25,15 @@ class ArticlesController < ApplicationController
     redirect_to @article
  else
    render "new"
+ end
+end
+def update
+  @article = Article.find(params[:id])
+  if @article.update(params.require(:article).permit(:title, :description))
+    flash[:notice] = "Article was updated successfully."
+    redirect_to @article
+ else
+   render 'edit'
  end
 end
 
